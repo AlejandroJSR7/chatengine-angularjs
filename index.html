@@ -24,7 +24,7 @@
           </div>
           <ul id="online-list" class="list-group list-group-flush">
             <li class="list-group-item" ng-repeat="(uuid, user) in chat.users" ng-hide="user.hideWhileSearch">
-              <a href="" ng-click="newChat()">{{user.state.username}}</a>
+              <a href="" ng-click="newChat(user)">{{user.state.username}}</a>
             </li>
           </ul>
           <div class="card-block">
@@ -36,6 +36,25 @@
                 </span>
               </div>
             </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div id="chats" class="row" ng-repeat="chat in chats">
+          <div class="chat col-xs-12">
+            <div class="card">
+              <div class="card-header">
+                <div class="col-sm-6">
+                  {{chat.channel}}
+                </div>
+                <div class="col-sm-6 text-right">
+                  <a href="" class="close">x</a>
+                </div>
+              </div>
+              <ul class="list-group list-group-flush online-list-sub">
+                <li class="list-group-item" ng-repeat="(uuid, user) in chat.users" ng-hide="user.hideWhileSearch">{{user.state.username}}</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>

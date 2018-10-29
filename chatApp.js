@@ -17,8 +17,18 @@ angular.module('chatApp', ['open-chat-framework'])
     $scope.ChatEngine.connect(new Date().getTime(), {}, 'auth-key');
     $scope.ChatEngine.on('$.ready', (data) => {
       $scope.me = data.me;
-
       $scope.me.plugin(ChatEngineCore.plugin['chat-engine-random-username']($scope.ChatEngine.global));
+      console.log('...... $scope.me', $scope.me);
+
+      // when I get a private invit
+      $scope.me.direct.on('$.invite', (payload) => {
+        let chat = new $scope.ChatEngine.Chat(payload.data.channel);
+        chat.onAny((a, b) => {
+          console.log('a', a);
+          console.log('b', b);
+        });
+        $scope.chats.push(chat);
+      })
 
       // bind chat to updates
       $scope.chat = $scope.ChatEngine.global;
@@ -41,6 +51,7 @@ angular.module('chatApp', ['open-chat-framework'])
 
     // create a new chat
     $scope.newChat = function(user) {
+      console.log('newChat user', user);
       // define a channel
       let chat = new Date().getTime();
       // create a new chat with that channel
