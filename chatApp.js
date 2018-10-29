@@ -84,4 +84,10 @@ angular.module('chatApp', ['open-chat-framework'])
       $scope.messages.push(payload);
     });
 
+    // leave a chatroom and remove from global chat list
+    $scope.leave = function (index) {
+      $scope.chat.leave();
+      $scope.chats.splice(index, 1);
+    }
+
   });
