@@ -5,7 +5,7 @@ angular.module('chatApp', ['open-chat-framework'])
       subscribeKey: 'sub-c-d2b9517a-db14-11e8-befe-22cc51e2fc9c'
     }, {
       debug: true,
-      globalChannel: 'El-Chat-De-Los-3.2'
+      globalChannel: 'chat-engine-angular-simpleo'
     });
     // bind open chat framework angular plugin
     ngChatEngine.bind($rootScope.ChatEngine);
@@ -63,6 +63,11 @@ angular.module('chatApp', ['open-chat-framework'])
     }
   })
   .controller('chat', function($scope) {
+
+    $scope.chat.plugin(ChatEngineCore.plugin['chat-engine-typing-indicator']({
+      timeout: 5000
+    }))
+
     // every chat has a list of messages
     $scope.messages = [];
 
@@ -103,5 +108,16 @@ angular.module('chatApp', ['open-chat-framework'])
     $scope.invite = function (user) {
       $scope.chat.invite(user);
     }
+
+
+    // when we get notified of a user typing
+    $scope.chat.on('$typingIndicator.startTyping', (event) => {
+      event.sender.isTyping = true;
+    });
+
+    // when we get notified a user stops typing
+    $scope.chat.on('$typingIndicator.stopTyping', (event) => {
+      event.sender.isTyping = false;
+    });
 
   });
