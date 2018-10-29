@@ -5,14 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>ChatEngine Simple Example</title>
-  <link rel="stylesheet" href="https://maxdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" />
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
   <script src="node_modules/chat-engine/dist/chat-engine.js"></script>
   <script src="plugin.js"></script>
   <script src="chatApp.js"></script>
 </head>
-<body>
-  
-
+<body ng-app="chatApp">
+  <div class="container-fluid" ng-controller="chatAppController">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-block">
+            <h4 class="card-title">ChatEngine</h4>
+            <p class="card-text">Your are connect with uuid {{me.uuid}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

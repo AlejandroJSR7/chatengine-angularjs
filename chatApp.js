@@ -1,5 +1,5 @@
 angular.module('chatApp', ['open-chat-framework'])
-  .run(['$rootScope', 'ngChatEngine', function($roo,tScope, ngChatEngine) {
+  .run(['$rootScope', 'ngChatEngine', function($rootScope, ngChatEngine) {
     $rootScope.ChatEngine = ChatEngineCore.create({
       publishKey: 'pub-c-dedc48f3-5a4f-4bb0-a448-d835702e8491',
       subscribeKey: 'sub-c-d2b9517a-db14-11e8-befe-22cc51e2fc9c'
@@ -9,4 +9,10 @@ angular.module('chatApp', ['open-chat-framework'])
     });
     // bind open chat framework angular plugin
     ngChatEngine.bind($rootScope.ChatEngine);
-  }]);
+  }])
+  .controller('chatAppController', function($scope) {
+    $scope.ChatEngine.connect(new Date().getTime(), {}, 'auth-key');
+    $scope.ChatEngine.on('$.ready', (data) => {
+      $scope.me = data.me;
+    });
+  });
