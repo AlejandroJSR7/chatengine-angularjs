@@ -18,7 +18,6 @@ angular.module('chatApp', ['open-chat-framework'])
     $scope.ChatEngine.on('$.ready', (data) => {
       $scope.me = data.me;
       $scope.me.plugin(ChatEngineCore.plugin['chat-engine-random-username']($scope.ChatEngine.global));
-      console.log('...... $scope.me', $scope.me);
 
       // when I get a private invit
       $scope.me.direct.on('$.invite', (payload) => {
@@ -46,12 +45,10 @@ angular.module('chatApp', ['open-chat-framework'])
       for(let i in found) {
         $scope.chat.users[found[i].uuid].hideWhileSearch = false;
       }
-      console.log('$scope.chat.users', $scope.chat.users);
     }
 
     // create a new chat
     $scope.newChat = function(user) {
-      console.log('newChat user', user);
       // define a channel
       let chat = new Date().getTime();
       // create a new chat with that channel
@@ -64,4 +61,27 @@ angular.module('chatApp', ['open-chat-framework'])
         $scope.chats.push(newChat);
       })
     }
+  })
+  .controller('chat', function($scope) {
+    // every chat has a list of messages
+    $scope.messages = [];
+
+    // send a message using the messageDraft input
+    $scope.sendMessage = function() {
+      $scope.chat.emit('message', { text: $scope.newMessage });
+      $scope.newMessage = '';
+    }
+
+    // when this chat gets a message
+    $scope.chat.on('message', function(payload) {
+      // if the last message was sent from the same user
+      payload.sameUser = $scope.messages.length > 0 && payload.sender.uuid == $scope.messages[$scope.messages.length - 1].sender.uuid;
+
+      // if this message was sent by this client
+      payload.isSelf = payload.sender.uuid == $scope.me.uuid;
+
+      // add the message to the array
+      $scope.messages.push(payload);
+    });
+
   });
