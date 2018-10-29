@@ -24,7 +24,7 @@
           </div>
           <ul id="online-list" class="list-group list-group-flush">
             <li class="list-group-item" ng-repeat="(uuid, user) in chat.users" ng-hide="user.hideWhileSearch">
-              <a href="">{{user.state.username}}</a>
+              <a href="" ng-click="newChat()">{{user.state.username}}</a>
             </li>
           </ul>
           <div class="card-block">
