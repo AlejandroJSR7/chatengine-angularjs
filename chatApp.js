@@ -19,7 +19,20 @@ angular.module('chatApp', ['open-chat-framework'])
 
       // bind chat to updates
       $scope.chat = $scope.ChatEngine.global;
-
-      console.log('...... CHAT', $scope.chat)
+      $scope.chat.plugin(ChatEngineCore.plugin['chat-engine-online-user-search']({
+        prop: 'state.username'
+      }));
     });
+    $scope.search = function() {
+      let found = $scope.chat.onlineUserSearch.search($scope.mySearch);
+      // hide every user
+      for(let uuid in $scope.chat.users) {
+        $scope.chat.users[uuid].hideWhileSearch = true;
+      }
+      // show all found users
+      for(let i in found) {
+        $scope.chat.users[found[i].uuid].hideWhileSearch = false;
+      }
+      console.log('$scope.chat.users', $scope.chat.users);
+    }
   });
